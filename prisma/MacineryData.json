@@ -1,0 +1,51 @@
+
+
+"YarnProcessing": {
+
+  "Machine Type" : enum {Cone Winding Yarn Twisting Yarn Dyeing Yarn Gassing }
+ "No of Heads": number,
+"Type of yarns you use": enum { cotton, viscose/Spun , polyester/filament},
+"yarnType" : [] multiple {Spun/Cotton Polyester Recycled Cotton}// multiple input field
+
+"No. of Machines": number
+}
+"Weaving":{
+
+        "types of weaving Machine" : enum { hand loom ,Rapier, air jet , Projectile ,  jacquard handloop ,  automatic jacquard }
+        "types of yarn " : multiple { cotton, viscose/Spun , polyester/filament}
+        "no of machines" : number
+}
+"knitting":{
+"Select Diameter of machine": enum { 14, 16, 18, 20, 24, 28, 30, 32, 34, 36, 40, 44, 48, 52, 56, 60 } || number,
+"select Guage": enum { 5, 7, 9, 12, 14, 16, 18, 20, 24, 28, 30, 32, 34, 36, 40, 44, 48, 52, 56, 60 } || number ,
+"Select Machine Type:": enum {"Single Jersey", "Double Jersey - Rib", "Double Jersey - Interlock", "3 Thread Fleece", "Garment Length", "Seamless", "Wrapper", "Terry", "Velour",
+},
+"Select Special Functionalities: (if any)" : mulltiple Select [Single Feeder,Auto-striper,Full Jacquard,Mini Jacquard,Wrapper,Pointel Mini Jacquard,Pointel Jacquard,Denim Knit,Double Side Terry,Matress,Polar Fleece,Poly Fleece,Quilt Design,Spacer,Sweater]
+
+"Machine Cylinder Track":enum number enum {1,2,3,4,5,6,7},
+"Takedown Roller Type": enum {"Tubular ", "open width" },
+"Type of yarns you use": enum { "cotton", "viscose/Spun ", "polyester/filament"},
+"Knitting Machine Brand": enum {"Mayer & Cie","Unitex","Year China","Terrot","Lakshmi Terrot","CMS","Falmac","FUKURAHA","FUKUHAMA","Buiyuan","Liski","Pailung","Santoni","Smart","Vilike","Other"},
+"No of Machines": number
+
+
+
+
+
+        }
+
+
+
+
+ "Certificates ":[
+  "Import Export Certificate",
+  "ISO 9001",
+  "GOTS",
+  "Fair Trade",
+  "OEKO-TEX",
+  "SA8000",
+  "RCS",
+  "BCI Cotton",
+  "Sedex",
+  "OCS",
+]
