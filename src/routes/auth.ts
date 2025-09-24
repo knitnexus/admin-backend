@@ -42,7 +42,11 @@ auth.post("/login", async (c) => {
 });
 
 auth.post("/logout", (c) => {
-    deleteCookie(c, COOKIE_NAME, { path: "/" });
+    deleteCookie(c, COOKIE_NAME, {
+        path: "/",
+        sameSite: "None",
+        secure: true
+    });
     return c.json({ success: true });
 });
 
