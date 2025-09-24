@@ -1,9 +1,7 @@
 
 import { Hono } from 'hono';
 import { PrismaClient } from "../generated/prisma";
-import { v4 as uuid } from "uuid";
-import { promises as fs } from "fs";
-import * as path from "node:path";
+
 import {requireAdmin} from "../middleware/auth";
 import { onBoardCompany} from "../lib/types";
 import z from "zod";
