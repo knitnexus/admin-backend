@@ -14,20 +14,7 @@ import {uploadMultipleToCloudinary, uploadToCloudinary} from "../services/ImageU
 const prisma = new PrismaClient();
 const companyRoute = new Hono();
 
-// async function saveFile(file: File, folder: string): Promise< undefined |string> {
-//     try {
-//         const buffer = Buffer.from(await file.arrayBuffer());
-//         const fileName = `${uuid()}-${file.name}`;
-//         const filePath = path.join(process.cwd(), "uploads", folder, fileName);
-//         await fs.mkdir(path.dirname(filePath), {recursive: true});
-//         await fs.writeFile(filePath, buffer);
-//         return "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU"
-//         // return `/uploads/${folder}/${fileName}`; // return URL
-//     }catch (err){
-//         console.error("File save failed:", err);
-//         return  undefined;
-//     }
-// }
+
 
 companyRoute.post("/onboard",requireAdmin ,async (c)=>{
 
