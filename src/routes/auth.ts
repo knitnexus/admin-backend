@@ -17,8 +17,7 @@ async  function createToken(email: string) {
 }
 
 function setAuthCookie(c: Context, token: string) {
-    setCookie(c, COOKIE_NAME, token, { httpOnly: true, path: "/", maxAge: COOKIE_MAX_AGE, sameSite: "Strict",   secure: process.env.NODE_ENV === "production" ? true : false
-
+    setCookie(c, COOKIE_NAME, token, { httpOnly: true, path: "/", maxAge: COOKIE_MAX_AGE, sameSite: "None", secure: true
     });
 }
 
