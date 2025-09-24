@@ -3,9 +3,8 @@ import routes from "./routes";
 import {errorHandler} from "./middleware/error";
 import { cors } from 'hono/cors'
 const app = new Hono()
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(",")
-    : [];
+const FRONTEND_SERVICE_URL = process.env.FRONTEND_SERVICE_URL || ""
+const allowedOrigins: string[] = [FRONTEND_SERVICE_URL]
 app.use(
     "*",
     cors({
