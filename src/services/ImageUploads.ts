@@ -27,7 +27,7 @@ export async function uploadToS3(file: File, folder: string): Promise<string | u
             Key: key,
             Body: buffer,
             ContentType: file.type,
-            ACL: "public-read", // makes the file publicly accessible
+
         });
 
         await s3.send(command);
