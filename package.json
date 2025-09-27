@@ -5,6 +5,8 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.896.0",
+    "@aws-sdk/s3-request-presigner": "^3.896.0",
     "@prisma/client": "^6.15.0",
     "bcrypt-ts": "^7.1.0",
     "cloudinary": "^2.7.0",
@@ -12,11 +14,12 @@
     "hono": "^4.9.6",
     "sonner": "^2.0.7",
     "sooner": "^1.1.4",
-    "uuid": "^12.0.0",
+    "uuid": "^13.0.0",
     "zod": "^4.1.5"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/uuid": "^11.0.0",
     "prisma": "^6.15.0"
   }
 }

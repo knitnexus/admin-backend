@@ -5,7 +5,7 @@ import { PrismaClient } from "../generated/prisma";
 import {requireAdmin} from "../middleware/auth";
 import { onBoardCompany} from "../lib/types";
 import z from "zod";
-import {uploadMultipleToCloudinary, uploadToCloudinary} from "../services/ImageUploads";
+import {uploadToS3, uploadMultipleToS3} from "../services/ImageUploads";
 
 
 
@@ -27,7 +27,7 @@ companyRoute.post("/onboard",requireAdmin ,async (c)=>{
 
         let companyLogo: string | undefined;
         if (logoFile) {
-            companyLogo= await uploadToCloudinary(logoFile,"logos")
+            companyLogo= await uploadToS3(logoFile,"logos")
             if(!companyLogo){
                 return c.json({
                     success: false,
@@ -41,7 +41,7 @@ companyRoute.post("/onboard",requireAdmin ,async (c)=>{
         if (unitFiles && unitFiles.length > 0) {
             const validFiles = unitFiles.filter(file => file instanceof File);
             if(validFiles.length>0) {
-                unitImages = await uploadMultipleToCloudinary(validFiles, "units");
+                unitImages = await uploadMultipleToS3(validFiles, "units");
 
                 if (unitImages.length !== validFiles.length) {
                     console.warn(`Some unit images failed to upload. Expected: ${validFiles.length}, Got: ${unitImages.length}`);
