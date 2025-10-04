@@ -20,8 +20,6 @@ companyRoute.post("/onboard",requireAdmin ,async (c)=>{
 
         const body=await c.req.parseBody();
         const formData = await c.req.formData();
-
-
         const logoFile = body["companyLogo"] as File | undefined;
         const unitFiles  = formData.getAll("unitImages") as File[];
 
@@ -75,7 +73,7 @@ companyRoute.post("/onboard",requireAdmin ,async (c)=>{
 
         const data = safeData.data; // ✅ fully validated + typed
 
-
+        console.log(data.location)
         const company = await prisma.company.create({
             data: {
                 name:data.name,

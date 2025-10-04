@@ -23,7 +23,7 @@ bun.lockb
 /src/generated/
 prisma/.env
 prisma/migrations/
-
+CLAUDE.md
 # OS files
 .DS_Store
 Thumbs.db

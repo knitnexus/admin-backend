@@ -1,11 +1,14 @@
 import z from 'zod'
 
 
-export const locationSchema =z.object({
+export const locationSchema = z.object({
     latitude: z.number(),
-    longitude: z.number()
-})
-
+    longitude: z.number(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    pincode: z.string().optional(),
+    address: z.string().optional(), // Full formatted address
+});
 // Example: Weaving Unit
 
 
@@ -274,6 +277,15 @@ export const UnitSchemas: Record<string, z.ZodTypeAny> = {
 };
 export const WorkTypeSchema = z.enum(["DOMESTIC_WORK", "EXPORT_WORK"]);
 
+export const jobPostingSchema=z.object({
+    unitType:unitType,
+    orderQuantity: z.number().int().positive(),
+    shortDescription: z.string().min(10, "Short description must be at least 10 characters"),
+    certifications: z.array(certifications).optional(),
+    detailedDescription: z.string().min(20, "Detailed description must be at least 20 characters").optional(),
+    jobImages: z.array(z.url()).optional(),
+    location:z.string(),
+})
 export const onBoardCompany=z.object({
     name: z.string().min(1, "Name is required"),
     contactNumber: z.string().min(1, "Contact Number is required"),

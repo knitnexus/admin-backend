@@ -78,6 +78,22 @@ model Machinery{
     @@map("machineries")
 }
 
+model JobPosting {
+  id                 String     @id @default(cuid())
+  unitType           UnitType
+  orderQuantity      Int
+  shortDescription   String
+  certifications     String[]
+  detailedDescription String?
+  jobImages          String[]
+  location           Json
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("job_postings")
+}
 
 
 
