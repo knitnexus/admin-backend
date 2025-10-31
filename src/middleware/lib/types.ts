@@ -151,7 +151,7 @@ const KnittingMachineSchema = z.object({
     z.number(),
   ]),
   takedownRollerType: z.enum(["Tubular", "open width"]),
-  typeOfYarn: z.array(z.enum(["cotton", "viscose/Spun", "polyester/filament"])),
+  typeOfYarn: z.array(z.enum(["Cotton", "Viscose/Spun", "Polyester/Filament"])),
   machineBrand: z.union([
     z.enum([
       "Mayer & Cie",
@@ -195,7 +195,7 @@ export const DyeingMachineSchema = z.discriminatedUnion("DyeingMachineType", [
     ]),
     minimumCapacity: z.number().optional(),
     maximumCapacity: z.number().optional(),
-    typeOfFabric: z.enum(["Tubular", "open width"]), // required for all others
+    typeOfFabric: z.enum(["Tubular", "Open width"]), // required for all others
     Maker: z.string().optional(),
     noOfMachines: z.number().int().positive(),
   }),
@@ -212,7 +212,7 @@ export const WeavingMachineSchema = z.object({
     "Water Jet Loom",
     "Other",
   ]),
-  typeOfYarn: z.enum(["Cotton", "Viscose/Spun", "Polyester/Filament"]),
+  typeOfYarn: z.array( z.enum(["Cotton", "Viscose/Spun", "Polyester/Filament"])),
   noOfMachines: z.number().int().positive(),
 });
 export const YarnSpinningMachineSchema = z.object({
@@ -227,7 +227,7 @@ export const YarnProcessingMachineSchema = z.object({
     "Cone-Winding",
   ]),
   noOfHeads: z.number().int().positive(),
-  typeOfYarn: z.enum(["Cotton", "Viscose/Spun", "Polyester/Filament"]),
+  typeOfYarn: z.array(z.enum(["Cotton", "Viscose/Spun", "Polyester/Filament"])),
   noOfMachines: z.number().int().positive(),
 });
 
@@ -247,14 +247,14 @@ export const FabricProcessingMachineSchema = z.object({
     "Calendring",
     "Mercherizing - Woven",
   ]),
-  typeOfFabric: z.array(z.enum(["Tubular", "open width"])),
+  typeOfFabric: z.array(z.enum(["Tubular", "Open width"])),
   maxWidthOfFabric: z.number().int().positive(),
   machineBrand: z.string(),
   noOfMachines: z.number().int().positive(),
 });
 export const FabricFinishingMachineSchema = z.object({
   machineType: z.enum(["Compacting", "Steaming", "Calendring"]),
-  typeOfFabric: z.enum(["Tubular", "open width"]),
+  typeOfFabric: z.enum(["Tubular", "Open width"]),
   maxWidthOfFabric: z.number().int().positive(),
   machineBrand: z.string(),
   noOfMachines: z.number().int().positive(),
