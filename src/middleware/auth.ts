@@ -1,31 +1,28 @@
-import type { MiddlewareHandler } from "hono";
-import { verify } from "hono/jwt";
-import { getCookie } from "hono/cookie";
+import type { MiddlewareHandler } from 'hono';
+import { getCookie } from 'hono/cookie';
+import * as authService from '../services/auth.service';
 
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
-
-// Middleware: Require Admin Role
 export const requireAdmin: MiddlewareHandler = async (c, next) => {
-    // Get token from cookie
-    const token = getCookie(c, "token");
+  const config = authService.getAuthConfig();
+  const token = getCookie(c, config.COOKIE_NAME);
 
-    if (!token) {
-        return c.json({ success: false, message: "Missing auth cookie" }, 401);
+  if (!token) {
+    return c.json({ success: false, message: 'Missing auth cookie' }, 401);
+  }
+
+  try {
+    const payload = await authService.verifyToken(token);
+    c.set('user', payload);
+
+    if (payload.role !== 'admin') {
+      return c.json({ success: false, message: 'Forbidden: Admin only' }, 403);
     }
 
-
-    try {
-        // Verify JWT
-        const payload = await verify(token, JWT_SECRET);
-        c.set("user", payload);
-
-        // Check for admin role
-        if (payload.role !== "admin") {
-            return c.json({ success: false, message: "Forbidden: Admin only" }, 403);
-        }
-
-        await next();
-    } catch (err: any) {
-        return c.json({ success: false, message: "Unauthorized: " + err.message }, 401);
-    }
+    await next();
+  } catch (err: any) {
+    return c.json(
+      { success: false, message: 'Unauthorized: ' + err.message },
+      401
+    );
+  }
 };

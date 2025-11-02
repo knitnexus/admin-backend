@@ -1,0 +1,68 @@
+
+⏺ I found the issue! Looking at the frontend code, the problem is on line 63:
+
+  interface Company {
+    // ... other fields
+    productionCapacity: string;  // <-- This is defined as string
+    // ... other fields
+  }
+
+  And then when setting the state from the API response (around line 239):
+
+  setProductionCapacity(company.productionCapacity || "");
+
+  The frontend is treating productionCapacity as a string, but the backend expects it as a number. When the
+  backend receives an empty string "" or the field is falsy, the parsing fails.
+
+  The Problem
+
+  Looking at your backend code at src/controllers/company.controller.ts:283-285:
+
+  productionCapacity: body['productionCapacity']
+    ? parseInt(body['productionCapacity'] as string, 10)
+    : existingCompany.productionCapacity,
+
+  When body['productionCapacity'] is an empty string "", JavaScript's parseInt("", 10) returns NaN, which fails
+  validation. The condition body['productionCapacity'] evaluates to false for empty strings, so it should use the
+   existing value, but there might be an issue with how the form data is being sent.
+
+  Solutions
+
+  Option 1: Fix the Frontend (Recommended)
+
+  Change the frontend to ensure a valid number is always sent. Update the validation and submission:
+
+  // In the validate function (around line 318)
+  if (!productionCapacity || parseInt(productionCapacity) <= 0)
+      newErrors.productionCapacity = "Valid production capacity is required";
+
+  This is already correct. But the issue is the form data append. Check line 408:
+
+  formData.append("productionCapacity", productionCapacity);
+
+  The problem: If productionCapacity state is an empty string, this appends an empty string, which causes the
+  backend to receive "" and then fail to parse it.
+
+  Option 2: Fix the Backend (Quick Fix)
+
+  Update the backend to handle empty strings more gracefully:
+
+⏺ Update(src/controllers/company.controller.ts)
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Edit file src/controllers/company.controller.ts
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+   280          unitSqFeet: body['unitSqFeet']
+   281            ? parseInt(body['unitSqFeet'] as string, 10)
+   282            : existingCompany.unitSqFeet,
+   283 -        productionCapacity: body['productionCapacity']
+   283 +        productionCapacity: body['productionCapacity']
+       +   && body['productionCapacity'].toString().trim() !== ''
+   284            ? parseInt(body['productionCapacity'] as string, 10)
+   285            : existingCompany.productionCapacity,
+   286          companyLogo: companyLogo,
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Do you want to make this edit to company.controller.ts?
+ ❯ 1. Yes
+   2. Yes, allow all edits during this session (shift+tab)
+   3. No, and tell Claude what to do differently (esc)

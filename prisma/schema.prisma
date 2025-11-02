@@ -51,6 +51,7 @@ model Company {
     contactNumber String
     companyLogo         String?
     unitImages      String[]
+    productionCapacity  Int @default(0)
     gstNumber       String?
     location        Json?
     unitType UnitType
@@ -93,16 +94,15 @@ model Service {
     @@map("services")
 }
 
-model FormConfiguration {
-  id            String    @id @default(cuid())
-  unitType      UnitType
-  displayName   String
-  description   String?
-  fieldConfig   Json      // The form structure for each unit type
+model JobPostingForm{
+    id          String    @id @default(cuid())
+    unitType    UnitType
+    orderQuantity Int
+    shortDescription String
+    certifications String[]
+    detailedDescription String
+    jobImages      String[]
+    location   String 
+    createdAt   DateTime  @default(now())
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-
-  @@map("form_configurations")
 }

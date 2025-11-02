@@ -1,20 +1,21 @@
-import { Hono } from 'hono'
-import routes from "./routes";
-import {errorHandler} from "./middleware/error";
-import { cors } from 'hono/cors'
-const app = new Hono()
-const FRONTEND_SERVICE_URL = process.env.FRONTEND_SERVICE_URL || ""
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import routes from './routes';
+import { errorHandler } from './middleware/error';
+import { APP_CONSTANTS } from './constants';
+
+const app = new Hono();
 
 app.use(
-    "*",
-    cors({
-        origin: FRONTEND_SERVICE_URL,
-        credentials: true,
-    })
+  '*',
+  cors({
+    origin: APP_CONSTANTS.FRONTEND_URL,
+    credentials: true,
+  })
 );
 
-app.use("*", errorHandler);
+app.use('*', errorHandler);
 
-app.route("/", routes);
+app.route('/', routes);
 
-export default app
+export default app;
